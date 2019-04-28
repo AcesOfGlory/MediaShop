@@ -1,6 +1,6 @@
 <?php
 
-include("header.php");
+include("layout/header.php");
 
 session_start();
 
@@ -12,19 +12,14 @@ if (!isset($_SESSION['customer'])){
   header("Location: login.php");
   exit;
 }
-if (isset($_POST['cexpr'])){
-  echo $_POST['cexpr'];
-}
 
 ?>
 
 <html>
   <head>
     <title>Checkout</title>
-	  <link href="main.css" rel="stylesheet" type="text/css"/>
-
-  </style>
   </head>
+
   <body>
     <h1>Checkout</h1>
     <p>

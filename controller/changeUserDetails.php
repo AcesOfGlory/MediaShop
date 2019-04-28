@@ -1,8 +1,8 @@
 <?php
 
-include("../CustomerSession.php");
-include("../validation.php");
-include("../dao/Customer.php");
+include("../../model/CustomerSession.php");
+include("../../controller/validation.php");
+include("../../dao/Customer.php");
 
 session_start();
 

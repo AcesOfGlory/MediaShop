@@ -1,8 +1,7 @@
 <?php
 
-include("customerSession.php");
-include("header.php");
-require_once("dao/Film.php");
+include("layout/header.php");
+require_once("../dao/Film.php");
 
 $searchTerm = $_GET['search_query'];
 $sortedBy = $_GET['sort'];

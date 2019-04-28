@@ -1,14 +1,12 @@
 <?php
 
-include("CustomerSession.php");
-include("ShoppingBasket.php");
+include("../model/CustomerSession.php");
+include("../model/ShoppingBasket.php");
 
-include("header.php");
-require_once("dao/Film.php");
+include("layout/header.php");
+require_once("../dao/Film.php");
 
 session_start();
-
-$filmDAO = new Film();
 
 if (!isset($_SESSION['shoppingbasket'])){
 	$basket = new ShoppingBasket();
@@ -16,6 +14,8 @@ if (!isset($_SESSION['shoppingbasket'])){
 }
 
 $basket = $_SESSION['shoppingbasket'];
+
+$filmDAO = new Film();
 
 echo "<center>";
 echo "<h2>Basket</h2><br/>";
@@ -111,7 +111,6 @@ if (!$_SESSION['shoppingbasket']->isEmpty()){
 	";
 }
 ?>
-
 
 <html>
 	<head>

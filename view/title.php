@@ -1,10 +1,10 @@
 <?php
 
-include("CustomerSession.php");
-include("header.php");
-require_once("dao/Film.php");
+include("../model/CustomerSession.php");
+include("layout/header.php");
+require_once("../dao/Film.php");
 
-$filmId = $_GET['id'];
+$filmId = $_GET["id"];
 $queryGetFilm = "
 SELECT
   filmid,
@@ -26,11 +26,11 @@ if ($film) {
   echo "<title>{$film['filmtitle']}</title>";
 
   echo "<h1>{$film['filmtitle']}</h1><br/>";
-  echo "<h5> Rating: {$film['filmrating']}</h5>";
-  echo "<h5> Description: {$film['filmdescription']}</h5><br/>";
+  echo "<h5><b>Rating:</b> {$film['filmrating']}</h5>";
+  echo "<h5><b>Description:</b> {$film['filmdescription']}</h5><br/>";
 
   echo
-    "<form action='addToBasket.php' method=post>
+    "<form action='../controller/addToBasket.php' method=post>
         <input type='hidden' name='id' value='$filmId'>
         <input type='submit' class='button-right' value='Add to Basket'>
       </form>

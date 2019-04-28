@@ -1,6 +1,5 @@
 <?php
-include("CustomerSession.php");
-include("header.php");
+include("layout/header.php");
 ?>
 
 <html>

@@ -1,9 +1,9 @@
 <?php
 
-include("../CustomerSession.php");
-include("../header.php");
+include("../../model/CustomerSession.php");
+include("../layout/header.php");
 
-include_once("../dao/OnlinePayment.php");
+include_once("../../dao/OnlinePayment.php");
 
 session_start();
 
