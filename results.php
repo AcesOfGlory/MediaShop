@@ -1,19 +1,27 @@
 <?php
 
-include("CustomerSession.php");
+include("customerSession.php");
 include("header.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$conn = new mysqli($host, $user, $pass, $db);
-
+require_once("dao/Film.php");
 
 $searchTerm = $_GET['search_query'];
 $sortedBy = $_GET['sort'];
 $sortType = $_GET['type'];
+
+$filmDAO = new Film();
+
+if ($sortType == "first"){
+  $searchTermPattern = "$searchTerm%";
+}
+else if ($sortType == "exact"){
+  $searchTermPattern = "$searchTerm";
+}
+else if ($sortType == "last"){
+  $searchTermPattern = "%$searchTerm";
+}
+else {
+  $searchTermPattern = "%$searchTerm%";
+}
 
 $query1 = "
 SELECT
@@ -21,7 +29,7 @@ SELECT
 FROM
   fss_Film
 WHERE
-  filmtitle LIKE ?
+  filmtitle LIKE '$searchTermPattern'
 ";
 
 $query2 = "
@@ -30,7 +38,7 @@ SELECT
 FROM
   fss_Film
 WHERE
-  filmtitle LIKE ?
+  filmtitle LIKE '$searchTermPattern'
 ORDER BY
   filmtitle ASC
 ";
@@ -41,41 +49,23 @@ SELECT
 FROM
   fss_Film
 WHERE
-  filmtitle LIKE ?
+  filmtitle LIKE '$searchTermPattern'
 ORDER BY
   filmtitle DESC
 ";
 
-
 if ($sortedBy == "asc"){
-    $stmt = $conn->prepare($query2);
+  $sql = $query2;
 }
 elseif ($sortedBy == "desc"){
-    $stmt = $conn->prepare($query3);
+  $sql = $query3;
 }
 else {
-    $stmt = $conn->prepare($query1);
+  $sql = $query1;
 }
 
-$searchPattern = "";
-
-if ($sortType == "first"){
-    $searchPattern = "$searchTerm%";
-}
-else if ($sortType == "exact"){
-    $searchPattern = "$searchTerm";
-}
-else if ($sortType == "last"){
-    $searchPattern = "%$searchTerm";
-}
-else {
-    $searchPattern = "%$searchTerm%";
-}
-
-$stmt->bind_param("s",$searchPattern);
-$stmt->execute();
-$films = $stmt->get_result();
-
+$stmt = $filmDAO->query($sql);
+$film = $stmt->fetch_array();
 
 echo "
 <form method='get'>
@@ -101,31 +91,29 @@ echo "
 
 ?>
 
+
 <!DOCTYPE HTML>
 <html>
-<head>
+  <head>
     <title>Search results</title>
-</head>
-<body>
-<main>
-    <h3> Results: </h3>
-    <br/>
-</main>
-
+  </head>
+  <body>
+      <h3> Results: </h3>
+      <br/>
 <?php
 
-if ($films){
-
-    foreach ($films as $film) {
-        echo "
+if ($film){
+	do {
+    echo "
       <h4><a href='title.php?id={$film["filmid"]}'>{$film["filmtitle"]}</a></h4>
     ";
-    }
+	} while ($film = $stmt->fetch_array());
 }
 else {
-    echo "<h4>No search results</h4>";
+	echo "<h4>No search results.</h4>";
 }
 
 ?>
-</body class="search">
+
+  </body class="search">
 </html>

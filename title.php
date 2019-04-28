@@ -2,16 +2,9 @@
 
 include("CustomerSession.php");
 include("header.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$connection = new mysqli($host, $user, $pass, $db);
+require_once("dao/Film.php");
 
 $filmId = $_GET['id'];
-
 $queryGetFilm = "
 SELECT
   filmid,
@@ -26,8 +19,8 @@ WHERE
   F.ratid = R.ratid AND filmid = '$filmId'
 ";
 
-$stmt = $connection->query($queryGetFilm) or die($connection->error);
-$film = $stmt->fetch_array();
+$filmDAO = new Film();
+$film = $filmDAO->query($queryGetFilm)->fetch_assoc();
 
 if ($film) {
   echo "<title>{$film['filmtitle']}</title>";

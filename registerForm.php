@@ -1,12 +1,7 @@
 <?php
+
+include("dao/Customer.php");
 include("validation.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$connection = new mysqli($host, $user, $pass, $db);
 
 $emailEntered = test_input($_POST['email']);
 $passwordEntered = test_input($_POST['password']);
@@ -25,7 +20,8 @@ if (!passwordValidation($passwordEntered)){
 
 $queryCheckExists =
 "SELECT
-  personemail, personid
+  personemail,
+  personid
 FROM
   fss_Person
 WHERE
@@ -37,23 +33,19 @@ $queryAddPerson =
     fss_Person(personemail)
   VALUES('$emailEntered')";
 
-
-$result1 = $connection->query($queryCheckExists) or die($connection->error);
-$result2 = $result1->fetch_object();
-
-$emailFetched = $result2->personemail;
+$customer = new Customer();
+$doesExist = $customer->query($queryCheckExists)->num_rows;
 
 
-if ($emailEntered == $emailFetched){
-  header("Location: register.html");
+if ($doesExist != 0){
+  header("Location: register.php");
   exit;
 }
 else {
-  $connection->query($queryAddPerson) or die($connection->error);
+  $customer->query($queryAddPerson);
 
-  $result3 = $connection->query($queryCheckExists) or die($connection->error);
-  $result4 = $result3->fetch_object();
-  $personid = $result4->personid;
+  $newCustomer = $customer->query($queryCheckExists)->fetch_assoc();
+  $personid = $newCustomer["personid"];
 
   $queryAddCustomer = sprintf(
     'INSERT
@@ -66,7 +58,7 @@ else {
       $passwordEntered
   );
 
-  $connection->query($queryAddCustomer) or die($connection->error);
+  $customer->query($queryAddCustomer);
 
   $queryAddAddress =
   "INSERT
@@ -83,11 +75,10 @@ else {
       addid DESC
     LIMIT 1";
 
+  $customer->query($queryAddAddress);
 
-  $connection->query($queryAddAddress) or die($connection->error);
-
-  $addressQuery = $connection->query($queryGetAddress) or die($connection->error);
-  $addid = $addressQuery->fetch_object()->addid;
+  $addressQuery = $customer->query($queryGetAddress)->fetch_assoc();
+  $addid = $addressQuery["addid"];
 
   $queryAddCustomerAddress =
     "INSERT
@@ -95,12 +86,10 @@ else {
       fss_CustomerAddress(addid, custid)
     VALUES('$addid', '$personid')";
 
-
-  $connection->query($queryAddCustomerAddress) or die($connection->error);
+  $customer->query($queryAddCustomerAddress);
 
   header("Location: login.php");
   exit;
 }
-
 
 ?>

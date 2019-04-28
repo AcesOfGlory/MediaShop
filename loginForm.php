@@ -1,18 +1,12 @@
 <?php
 
 include("CustomerSession.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$connection = new mysqli($host, $user, $pass, $db);
+include("dao/Customer.php");
 
 $emailEntered = $_POST['email'];
 $passwordEntered = $_POST['password'];
 
-$sql =
+$queryGetCustomer =
 "SELECT
   custid,
   personemail,
@@ -24,13 +18,13 @@ INNER JOIN
 WHERE
   personemail = '$emailEntered'";
 
-$result1 = $connection->query($sql) or die($connection->error);
-$result2 = $result1->fetch_object();
 
-$custidFetched = $result2->custid;
-$emailFetched = $result2->personemail;
-$passwordFetched = $result2->custpassword;
+$customer = new Customer();
+$customerDetails = $customer->query($queryGetCustomer)->fetch_assoc();
 
+$custidFetched = $customerDetails["custid"];
+$emailFetched = $customerDetails["personemail"];
+$passwordFetched = $customerDetails["custpassword"];
 
 if ($emailEntered != $emailFetched || $passwordEntered != $passwordFetched) {
   header("Location: login.php");
@@ -43,7 +37,7 @@ $user = new CustomerSession();
 $user->setCustomerLogin(true);
 $user->setCustomer($custidFetched);
 
-$_SESSION['customer'] = $user;
+$_SESSION["customer"] = $user;
 
 header("Location: index.php");
 exit;

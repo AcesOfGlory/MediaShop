@@ -3,6 +3,14 @@
 include("ShoppingBasket.php");
 include("CustomerSession.php");
 
+include_once("dao/Customer.php");
+include_once("dao/Payment.php");
+include_once("dao/CardPayment.php");
+include_once("dao/OnlinePayment.php");
+include_once("dao/OnlinePurchase.php");
+include_once("dao/FilmPurchase.php");
+include_once("dao/DVDStock.php");
+
 session_start();
 
 $basket = $_SESSION['shoppingbasket'];
@@ -30,12 +38,14 @@ $PRICE = 5;
 $custid = $cust->getCustomer();
 $totalAmount = $basket->getTotalCount() * PRICE;
 
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
+$customer = new Customer();
+$payment = new Payment();
+$cardPayment = new CardPayment();
+$onlinePayment = new OnlinePayment();
+$onlinePurchase = new OnlinePurchase();
+$filmPurchase = new FilmPurchase();
+$DVDStock = new DVDStock();
 
-$connection = new mysqli($host, $user, $pass, $db);
 
 $queryAddPayment = sprintf('
 	INSERT
@@ -47,10 +57,10 @@ $queryAddPayment = sprintf('
 	, 1
 	, 2
 );
-$connection->query($queryAddPayment) or die($connection->error);
+$payment->query($queryAddPayment);
 
 $queryGetPaymentID = "SELECT payid FROM fss_Payment ORDER BY payid DESC LIMIT 1";
-$queryGetPaymentIDResult = $connection->query($queryGetPaymentID) or die($connection->error);
+$queryGetPaymentIDResult = $payment->query($queryGetPaymentID);
 $payid = $queryGetPaymentIDResult->fetch_object()->payid;
 
 
@@ -64,7 +74,7 @@ $queryAddCardPayment = sprintf("
 	, $ctype
 	, $cexpr
 );
-$connection->query($queryAddCardPayment) or die($connection->error);
+$cardPayment->query($queryAddCardPayment);
 
 
 $queryAddOnlinePayment = sprintf("
@@ -75,7 +85,7 @@ $queryAddOnlinePayment = sprintf("
 	, $payid
 	, $custid
 );
-$connection->query($queryAddOnlinePayment) or die($connection->error);
+$onlinePayment->query($queryAddOnlinePayment);
 
 
 foreach ($basket->getItems() as $f => $q) {
@@ -88,7 +98,7 @@ foreach ($basket->getItems() as $f => $q) {
 		WHERE
 		  shopid = 1 AND filmid = '$f'
 	";
-	$connection->query($queryUpdateStock) or die($connection->error);
+	$DVDStock->query($queryUpdateStock);
 
   for ($i = 0; $i < $q; $i++){
 
@@ -102,15 +112,15 @@ foreach ($basket->getItems() as $f => $q) {
   		, 1
   		, 5
   	);
-  	$connection->query($queryAddFilmPurchase) or die($connection->error);
+  	$filmPurchase->query($queryAddFilmPurchase);
 
   	$queryGetFilmPurchaseID = "SELECT fpid FROM fss_FilmPurchase ORDER BY fpid DESC LIMIT 1";
-  	$queryGetFilmPurchaseIDResult = $connection->query($queryGetFilmPurchaseID) or die($connection->error);
+  	$queryGetFilmPurchaseIDResult = $filmPurchase->query($queryGetFilmPurchaseID);
   	$fpid = $queryGetFilmPurchaseIDResult->fetch_object()->fpid;
 
 
   	$queryGetAddressID = "SELECT addid FROM fss_CustomerAddress WHERE custid = '$custid'";
-  	$queryGetAddressIDResult = $connection->query($queryGetAddressID) or die($connection->error);
+  	$queryGetAddressIDResult = $customer->query($queryGetAddressID);
   	$addid = $queryGetAddressIDResult->fetch_object()->addid;
 
   	$queryAddOnlinePurchase = sprintf("
@@ -121,10 +131,9 @@ foreach ($basket->getItems() as $f => $q) {
   		, $fpid
   		, $addid
   	);
-  	$connection->query($queryAddOnlinePurchase) or die($connection->error);
+  	$onlinePurchase->query($queryAddOnlinePurchase);
   }
 }
-
 
 $basket->emptyBasket();
 

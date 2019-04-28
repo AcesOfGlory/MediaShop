@@ -3,10 +3,7 @@
 include("../CustomerSession.php");
 include("../header.php");
 
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
+include_once("../dao/OnlinePayment.php");
 
 session_start();
 
@@ -15,9 +12,9 @@ if (!isset($_SESSION['customer'])){
   exit;
 }
 
-$connection = new mysqli($host, $user, $pass, $db);
-
 $custid = $_SESSION['customer']->getCustomer();
+
+$onlinePayment = new OnlinePayment();
 
 $query = "
 SELECT
@@ -41,7 +38,7 @@ WHERE
 ORDER BY
   OP.payid ASC";
 
-$result1 = $connection->query($query) or die($connection->error);
+$result1 = $onlinePayment->query($query);
 
 print "<center>";
 print "<h1>Order History</h1><br/>";

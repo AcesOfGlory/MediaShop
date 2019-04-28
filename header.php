@@ -28,7 +28,7 @@
 
             <li role="presentation"><a href="/u1762930/MediaShop/results.php?search_query=&sort=asc">Browse</a></li>
             <?php
-              require_once("globalFunctions.php");
+              include("globalFunctions.php");
               $random = getRandomFilm();
               echo "<li role='presentation'><a href='/u1762930/MediaShop/title.php?id=$random'>Random</a></li>";
             ?>

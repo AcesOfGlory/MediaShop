@@ -4,15 +4,11 @@ include("CustomerSession.php");
 include("ShoppingBasket.php");
 
 include("header.php");
+require_once("dao/Film.php");
 
 session_start();
 
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$connection = new mysqli($host, $user, $pass, $db);
+$filmDAO = new Film();
 
 if (!isset($_SESSION['shoppingbasket'])){
 	$basket = new ShoppingBasket();
@@ -28,15 +24,16 @@ echo "<table border=1>";
 echo "</tr><td><h4>Film Name</h4></td><td><h4>Quantity</h4></td><td><h4>Price</h4></td></tr>";
 
 foreach ($basket->getItems() as $f => $q) {
-	$query =
-	"SELECT
+	$query ="
+	SELECT
 	  filmtitle
 	FROM
 	  fss_Film
 	WHERE
-	  filmid = '$f'";
+	  filmid = '$f'
+	";
 
-	$result = $connection->query($query) or die($connection->error);
+	$result = $filmDAO->query($query);
 	$fi = $result->fetch_object()->filmtitle;
 
 	$price = $q * 5;
@@ -71,9 +68,6 @@ function changeQuantity(){
 
 
 	$_SESSION['shoppingbasket']->setQuantity($filmid, $quantity);
-
-	echo "<script>console.log($filmid)</script>";
-	echo "<script>console.log($quantity)</script>";
 
 	// $after = $_SESSION['shoppingbasket']->getQuantity($idSplit[0]);
 

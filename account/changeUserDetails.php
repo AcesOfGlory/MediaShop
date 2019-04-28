@@ -2,13 +2,7 @@
 
 include("../CustomerSession.php");
 include("../validation.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
-
-$connection = new mysqli($host, $user, $pass, $db);
+include("../dao/Customer.php");
 
 session_start();
 
@@ -63,7 +57,6 @@ SET
 WHERE
   P.personid = '$custid'";
 
-
 $queryUpdateCustomer =
 "UPDATE
   fss_Customer C
@@ -89,10 +82,11 @@ WHERE
     A.addid = CA.addid AND CA.custid = '$custid'
 )";
 
+$customer = new Customer();
 
-$connection->query($queryUpdatePerson) or die($connection->error);
-$connection->query($queryUpdateCustomer) or die($connection->error);
-$connection->query($queryUpdateAddress) or die($connection->error);
+$customer->query($queryUpdatePerson);
+$customer->query($queryUpdateCustomer);
+$customer->query($queryUpdateAddress);
 
 header("Location: user-details.php");
 exit;

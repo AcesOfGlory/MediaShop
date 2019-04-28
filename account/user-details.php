@@ -2,11 +2,7 @@
 
 include("../CustomerSession.php");
 include("../header.php");
-
-$host = "localhost";
-$user = "u1762930";
-$pass = "27dec98";
-$db = "u1762930";
+include("../dao/Customer.php");
 
 session_start();
 
@@ -15,33 +11,33 @@ if (!isset($_SESSION['customer'])){
   exit;
 }
 
-$connection = new mysqli($host, $user, $pass, $db);
-
 $custid = $_SESSION['customer']->getCustomer();
+$customer = new Customer();
 
-$queryGetUserDetails =
-"SELECT
-  P.personname,
-  P.personphone,
-  P.personemail,
-  C.custpassword,
-  A.addstreet,
-  A.addcity,
-  A.addpostcode
-FROM
-  fss_Person P
-INNER JOIN
-  fss_Customer C ON(P.personid = C.custid)
-INNER JOIN
-  fss_CustomerAddress CA ON(C.custid = CA.custid)
-INNER JOIN
-  fss_Address A ON(A.addid = CA.addid)
-WHERE
-  CA.custid = '$custid'";
+$queryGetUserDetails = "
+  SELECT
+    P.personname,
+    P.personphone,
+    P.personemail,
+    C.custpassword,
+    A.addstreet,
+    A.addcity,
+    A.addpostcode
+  FROM
+    fss_Customer C
+  INNER JOIN
+    fss_Person P ON(P.personid = C.custid)
+  INNER JOIN
+    fss_CustomerAddress CA ON(C.custid = CA.custid)
+  INNER JOIN
+    fss_Address A ON(A.addid = CA.addid)
+  WHERE
+    CA.custid = '$custid'
+";
 
-
-$result1 = $connection->query($queryGetUserDetails) or die($connection->error);
+$result1 = $customer->query($queryGetUserDetails);
 $row = $result1->fetch_row();
+
 ?>
 
 <html>
@@ -68,7 +64,7 @@ $row = $result1->fetch_row();
             <tr><td>City</td><td><input type=text name='city' value="<?php echo $row[5]; ?>"></td></tr>
             <tr><td>Postcode</td><td><input type=text name='postcode' value="<?php echo $row[6]; ?>"></td></tr>
 
-            <tr><td><input type='submit' value='submit'></td>
+            <tr><td><input type='submit' value='Submit'></td>
           </form>
       </table>
     </center>
