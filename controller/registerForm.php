@@ -1,13 +1,13 @@
 <?php
 
-include("dao/Customer.php");
+include("../dao/Customer.php");
 include("validation.php");
 
 $emailEntered = test_input($_POST['email']);
 $passwordEntered = test_input($_POST['password']);
 
 function error(){
-  header("Location: register.php");
+  header("Location: ../view/register.php");
   exit;
 }
 
@@ -38,7 +38,7 @@ $doesExist = $customer->query($queryCheckExists)->num_rows;
 
 
 if ($doesExist != 0){
-  header("Location: register.php");
+  header("Location: ../view/register.php");
   exit;
 }
 else {
@@ -88,7 +88,7 @@ else {
 
   $customer->query($queryAddCustomerAddress);
 
-  header("Location: login.php");
+  header("Location: ../view/login.php");
   exit;
 }
 

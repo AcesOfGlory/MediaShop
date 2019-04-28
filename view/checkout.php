@@ -26,7 +26,7 @@ if (!isset($_SESSION['customer'])){
       <h5>Please enter card details below: </h5>
     </p>
     <table>
-      <form action='checkoutForm.php' method=post>
+      <form action='../controller/checkoutForm.php' method=post>
           <tr><td>Card Number</td><td><input required type=number name='cno' min=0 oninput="validity.valid||(value='');"></td></tr>
 
           <tr><td>Card Type</td><td>

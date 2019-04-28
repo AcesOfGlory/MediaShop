@@ -1,6 +1,6 @@
 <?php
 
-include("ShoppingBasket.php");
+include("../model/ShoppingBasket.php");
 
 session_start();
 
@@ -13,7 +13,7 @@ if (!isset($_SESSION['shoppingbasket'])){
 
 $_SESSION['shoppingbasket']->addItem($id);
 
-header("Location: title.php?id=$id");
+header("Location: ../view/title.php?id=$id");
 exit;
 
 ?>

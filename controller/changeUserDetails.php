@@ -1,8 +1,8 @@
 <?php
 
-include("../../model/CustomerSession.php");
-include("../../controller/validation.php");
-include("../../dao/Customer.php");
+include("../model/CustomerSession.php");
+include("../controller/validation.php");
+include("../dao/Customer.php");
 
 session_start();
 
@@ -23,7 +23,7 @@ $postcodeEntered = test_input($_POST['postcode']);
 
 
 function error(){
-  header("Location: user-details.php");
+  header("Location: ../view/account/user-details.php");
   exit;
 }
 
@@ -88,6 +88,6 @@ $customer->query($queryUpdatePerson);
 $customer->query($queryUpdateCustomer);
 $customer->query($queryUpdateAddress);
 
-header("Location: user-details.php");
+header("Location: ../view/account/user-details.php");
 exit;
 ?>

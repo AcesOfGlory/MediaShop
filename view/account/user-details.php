@@ -1,8 +1,8 @@
 <?php
 
-include("../CustomerSession.php");
-include("../header.php");
-include("../dao/Customer.php");
+include("../../model/CustomerSession.php");
+include("../layout/header.php");
+include("../../dao/Customer.php");
 
 session_start();
 
@@ -50,7 +50,7 @@ $row = $result1->fetch_row();
       <h1>User Details</h1><br/>
 
       <table>
-        <form autocomplete='off' action='changeUserDetails.php' method=post>
+        <form autocomplete='off' action='../../controller/changeUserDetails.php' method=post>
             <input type="text" style="display:none">
             <input type="password" style="display:none">
 

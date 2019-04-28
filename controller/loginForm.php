@@ -1,7 +1,7 @@
 <?php
 
-include("CustomerSession.php");
-include("dao/Customer.php");
+include("../model/CustomerSession.php");
+include("../dao/Customer.php");
 
 $emailEntered = $_POST['email'];
 $passwordEntered = $_POST['password'];
@@ -27,7 +27,7 @@ $emailFetched = $customerDetails["personemail"];
 $passwordFetched = $customerDetails["custpassword"];
 
 if ($emailEntered != $emailFetched || $passwordEntered != $passwordFetched) {
-  header("Location: login.php");
+  header("Location: ../view/login.php");
   exit;
 }
 
@@ -39,7 +39,7 @@ $user->setCustomer($custidFetched);
 
 $_SESSION["customer"] = $user;
 
-header("Location: index.php");
+header("Location: ../view/index.php");
 exit;
 
 ?>

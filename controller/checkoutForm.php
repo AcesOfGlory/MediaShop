@@ -1,15 +1,15 @@
 <?php
 
-include("ShoppingBasket.php");
-include("CustomerSession.php");
+include("../model/ShoppingBasket.php");
+include("../model/CustomerSession.php");
 
-include_once("dao/Customer.php");
-include_once("dao/Payment.php");
-include_once("dao/CardPayment.php");
-include_once("dao/OnlinePayment.php");
-include_once("dao/OnlinePurchase.php");
-include_once("dao/FilmPurchase.php");
-include_once("dao/DVDStock.php");
+include_once("../dao/Customer.php");
+include_once("../dao/Payment.php");
+include_once("../dao/CardPayment.php");
+include_once("../dao/OnlinePayment.php");
+include_once("../dao/OnlinePurchase.php");
+include_once("../dao/FilmPurchase.php");
+include_once("../dao/DVDStock.php");
 
 session_start();
 
@@ -17,11 +17,11 @@ $basket = $_SESSION['shoppingbasket'];
 $cust = $_SESSION['customer'];
 
 if (!isset($basket)){
-  header("Location: index.php");
+  header("Location: ../view/index.php");
   exit;
 }
 if (!isset($cust)){
-  header("Location: login.php");
+  header("Location: ../view/login.php");
   exit;
 }
 
@@ -137,7 +137,7 @@ foreach ($basket->getItems() as $f => $q) {
 
 $basket->emptyBasket();
 
-header("Location: basket.php");
+header("Location: ../view/basket.php");
 exit;
 
 ?>
