@@ -4,10 +4,10 @@ include("../resources/configs.php");
 
 class Connection {
     private $connection;
-    private $host = "localhost";//$config["db"]["host"];
-    private $user = "u1762930";//$config["db"]["username"];
-    private $pass = "27dec98";//$config["db"]["password"];
-    private $db ="u1762930";//$config["db"]["dbname"];
+    private $host = "localhost"; //$config["db"]["host"];
+    private $user = "u1762930"; //$config["db"]["username"];
+    private $pass = "27dec98"; //$config["db"]["password"];
+    private $db = "u1762930"; //$config["db"]["dbname"];
 
     public function __construct(){
         $this->connection = new mysqli($this->host, $this->user, $this->pass, $this->db);
