@@ -3,6 +3,7 @@
 include("../model/CustomerSession.php");
 include("../controller/validation.php");
 include("../dao/Customer.php");
+include("../dao/Address.php");
 
 session_start();
 
@@ -20,7 +21,6 @@ $passwordEntered = test_input($_POST['password']);
 $streetEntered = test_input($_POST['street']);
 $cityEntered = test_input($_POST['city']);
 $postcodeEntered = test_input($_POST['postcode']);
-
 
 function error(){
   header("Location: ../view/account/user-details.php");
@@ -47,46 +47,12 @@ regexValidation("/^[a-zA-Z\d\.\- ]*$/", $streetEntered);
 regexValidation("/^[a-zA-Z ]*$/", $cityEntered);
 regexValidation("/^[a-zA-Z\d ]*$/", $postcodeEntered);
 
-$queryUpdatePerson =
-"UPDATE
-  fss_Person P
-SET
-  P.personname = '$nameEntered',
-  P.personphone = '$phoneEntered',
-  P.personemail = '$emailEntered'
-WHERE
-  P.personid = '$custid'";
-
-$queryUpdateCustomer =
-"UPDATE
-  fss_Customer C
-SET
-  C.custpassword = '$passwordEntered'
-WHERE
-  C.custid = '$custid'";
-
-$queryUpdateAddress =
-"UPDATE
-  fss_Address A
-SET
-  A.addstreet = '$streetEntered',
-  A.addcity = '$cityEntered',
-  A.addpostcode = '$postcodeEntered'
-WHERE
-  (
-  SELECT
-    CA.addid
-  FROM
-    fss_CustomerAddress CA
-  WHERE
-    A.addid = CA.addid AND CA.custid = '$custid'
-)";
-
+$address = new Address();
 $customer = new Customer();
 
-$customer->query($queryUpdatePerson);
-$customer->query($queryUpdateCustomer);
-$customer->query($queryUpdateAddress);
+$customer->updatePerson($custid, $nameEntered, $phoneEntered, $emailEntered);
+$customer->updateCustomer($custid, $passwordEntered);
+$address->updateAddress($custid, $streetEntered, $cityEntered, $postcodeEntered);
 
 header("Location: ../view/account/user-details.php");
 exit;

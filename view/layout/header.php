@@ -27,7 +27,8 @@
 
             <li role="presentation"><a href="/u1762930/MediaShop/view/results.php?search_query=&sort=asc">Browse</a></li>
             <li role='presentation'><a href='/u1762930/MediaShop/controller/randomFilm.php'>Random</a></li>
-            <li role="presentation"><a href="/u1762930/MediaShop/view/basket.php">View Basket</a></li>
+            <li role='presentation'><a href='/u1762930/MediaShop/view/demo.php'>Demo</a></li>
+            <li role="presentation"><a href="/u1762930/MediaShop/view/basket.php">Basket</a></li>
 
           </ul>
 

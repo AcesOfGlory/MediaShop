@@ -8,6 +8,18 @@ class DVDStock extends DAO {
     public function __construct() {
         parent::__construct($this->table);
     }
+
+    public function updateDVDStock($filmid, $quantity){
+      $queryUpdateStock = "
+    		UPDATE
+    		  fss_DVDStock
+    		SET
+    		  stocklevel = stocklevel - $quantity
+    		WHERE
+    		  shopid = 1 AND filmid = '$filmid'
+      ";
+      parent::query($queryUpdateStock);
+    }
 }
 
 ?>

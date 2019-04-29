@@ -6,21 +6,8 @@ include("../dao/Customer.php");
 $emailEntered = $_POST['email'];
 $passwordEntered = $_POST['password'];
 
-$queryGetCustomer =
-"SELECT
-  custid,
-  personemail,
-  custpassword
-FROM
-  fss_Person
-INNER JOIN
-  fss_Customer ON(personid = custid)
-WHERE
-  personemail = '$emailEntered'";
-
-
 $customer = new Customer();
-$customerDetails = $customer->query($queryGetCustomer)->fetch_assoc();
+$customerDetails = $customer->getCustomer($emailEntered);
 
 $custidFetched = $customerDetails["custid"];
 $emailFetched = $customerDetails["personemail"];

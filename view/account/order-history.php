@@ -15,30 +15,7 @@ if (!isset($_SESSION['customer'])){
 $custid = $_SESSION['customer']->getCustomer();
 
 $onlinePayment = new OnlinePayment();
-
-$query = "
-SELECT
-  F.filmid,
-  F.filmtitle,
-  FP.price,
-  Pa.paydate,
-  OP.payid
-FROM
-  fss_OnlinePayment OP
-INNER JOIN
-  fss_Person P ON(P.personid = OP.custid)
-INNER JOIN
-  fss_FilmPurchase FP ON(FP.payid = OP.payid)
-INNER JOIN
-  fss_Film F ON(F.filmid = FP.filmid)
-INNER JOIN
-  fss_Payment Pa ON(FP.payid = Pa.payid)
-WHERE
-  P.personid = '$custid'
-ORDER BY
-  OP.payid ASC";
-
-$result1 = $onlinePayment->query($query);
+$result1 = $onlinePayment->getOnlinePayments($custid);
 
 print "<center>";
 print "<h1>Order History</h1><br/>";

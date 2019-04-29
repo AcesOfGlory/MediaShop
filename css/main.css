@@ -4,12 +4,6 @@ header {
 
 body {
   padding-left: 10px;
-
-
-}
-
-.display {
-  padding-left: 50px;
 }
 
 input {
@@ -23,6 +17,15 @@ input {
 
 td {
   padding: 5px;
+}
+
+.display {
+  padding-left: 50px;
+}
+
+.demo {
+  height: 350px;
+  width: 800px;
 }
 
 .button-right {

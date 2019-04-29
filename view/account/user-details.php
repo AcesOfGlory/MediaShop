@@ -12,30 +12,9 @@ if (!isset($_SESSION['customer'])){
 }
 
 $custid = $_SESSION['customer']->getCustomer();
+
 $customer = new Customer();
-
-$queryGetUserDetails = "
-  SELECT
-    P.personname,
-    P.personphone,
-    P.personemail,
-    C.custpassword,
-    A.addstreet,
-    A.addcity,
-    A.addpostcode
-  FROM
-    fss_Customer C
-  INNER JOIN
-    fss_Person P ON(P.personid = C.custid)
-  INNER JOIN
-    fss_CustomerAddress CA ON(C.custid = CA.custid)
-  INNER JOIN
-    fss_Address A ON(A.addid = CA.addid)
-  WHERE
-    CA.custid = '$custid'
-";
-
-$result1 = $customer->query($queryGetUserDetails);
+$result1 = $customer->getUserDetails($custid);
 $row = $result1->fetch_row();
 
 ?>
