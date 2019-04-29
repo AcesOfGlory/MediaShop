@@ -28,11 +28,11 @@ class Connection {
 
     public function query($sql) {
         $result = $this->connection->query($sql) or die($this->connection->error);
-        if ($result === FALSE) {
-            echo "Query failed: " . $this->connection->error;
+        if ($result) {
+          return $result;
         }
         else {
-            return $result;
+          echo "Query failed: " . $this->connection->error;
         }
     }
 }
