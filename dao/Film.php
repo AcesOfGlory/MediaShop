@@ -15,6 +15,69 @@ class Film extends DAO {
 
       return $randomFilm;
     }
+
+    public function getFilmName($filmid){
+      $queryGetFilmName = "
+        SELECT
+          filmtitle
+        FROM
+          fss_Film
+        WHERE
+          filmid = '$filmid'
+      ";
+      return parent::query($queryGetFilmName)->fetch_assoc()["filmtitle"];
+    }
+
+    public function getFilm($filmid){
+      $queryGetFilm = "
+        SELECT
+          filmid,
+          filmtitle,
+          filmdescription,
+          filmrating
+        FROM
+          fss_Film F
+        INNER JOIN
+          fss_Rating R
+        WHERE
+          F.ratid = R.ratid AND filmid = '$filmid'
+      ";
+      return parent::query($queryGetFilm)->fetch_assoc();
+    }
+
+    public function searchFilmsSortedByFilmID($searchTerm){
+      $queryFilmIDSearch = "
+        SELECT
+          *
+        FROM
+          fss_Film
+        WHERE
+          filmtitle LIKE '$searchTerm'
+      ";
+      return parent::query($queryFilmIDSearch);
+    }
+
+    public function searchFilmsSortedByFilmTitle($searchTerm, $order){
+      $queryFilmTitleASCSearch = "
+        SELECT
+          *
+        FROM
+          fss_Film
+        WHERE
+          filmtitle LIKE '$searchTerm'
+        ORDER BY
+          filmtitle $order
+      ";
+      return parent::query($queryFilmTitleASCSearch);
+    }
+
+    public function searchFilmsSortedByFilmTitleASC($searchTerm){
+      return $this->searchFilmsSortedByFilmTitle($searchTerm, "ASC");
+    }
+
+    public function searchFilmsSortedByFilmTitleDESC($searchTerm){
+      return $this->searchFilmsSortedByFilmTitle($searchTerm, "DESC");
+    }
 }
 
 ?>

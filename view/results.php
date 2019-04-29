@@ -22,48 +22,16 @@ else {
   $searchTermPattern = "%$searchTerm%";
 }
 
-$query1 = "
-SELECT
-  *
-FROM
-  fss_Film
-WHERE
-  filmtitle LIKE '$searchTermPattern'
-";
-
-$query2 = "
-SELECT
-  *
-FROM
-  fss_Film
-WHERE
-  filmtitle LIKE '$searchTermPattern'
-ORDER BY
-  filmtitle ASC
-";
-
-$query3 = "
-SELECT
-  *
-FROM
-  fss_Film
-WHERE
-  filmtitle LIKE '$searchTermPattern'
-ORDER BY
-  filmtitle DESC
-";
-
 if ($sortedBy == "asc"){
-  $sql = $query2;
+  $stmt = $filmDAO->searchFilmsSortedByFilmTitleASC($searchTermPattern);
 }
 elseif ($sortedBy == "desc"){
-  $sql = $query3;
+  $stmt = $filmDAO->searchFilmsSortedByFilmTitleDESC($searchTermPattern);
 }
 else {
-  $sql = $query1;
+  $stmt =$filmDAO->searchFilmsSortedByFilmID($searchTermPattern);
 }
 
-$stmt = $filmDAO->query($sql);
 $film = $stmt->fetch_array();
 
 echo "

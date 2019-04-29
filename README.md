@@ -1,5 +1,10 @@
 # MediaShop
 
+## Notes
+
+- The screenshots are the in /img directory.
+- Some components of the code may not work if not run on the Selene server since some of the path variables are absolute.
+
 ## Links
 
 - [Website](https://selene.hud.ac.uk/u1762930/MediaShop/view/index.php)
@@ -8,8 +13,7 @@
 
 ## Problem Statement
 
-For this assignment you need to build a web interface for the Film Sales Service. The interface will allow customers to browse the films that are available for purchase on line, with a view to purchasing one or more of the films. Before a purchase is made the customer must login so theycan make a payment using their existing credit card details. For new customers they must register with the sales service before they can make a purchase. 
-Existing customers can edit their details.
+For this assignment you need to build a web interface for the Film Sales Service. The interface will allow customers to browse the films that are available for purchase on line, with a view to purchasing one or more of the films. Before a purchase is made the customer must login so they can make a payment using their existing credit card details. For new customers they must register with the sales service before they can make a purchase. Existing customers can edit their details.
 
 As such, the required functionality is as follows:
 - A new customer should be registered (Registration should comply with the data structure of the database).
@@ -21,7 +25,7 @@ As such, the required functionality is as follows:
 
 1. The application should be built using the MVC architecture.
 2. The DAO Design Pattern.
-3. The Singleton Design Pattern 
+3. The Singleton Design Pattern
 4. Data validation and encryption.
 5. Fulfillment of Requirements.
 6. Demonstration of your working application.

@@ -15,7 +15,7 @@ if (!isset($_SESSION['shoppingbasket'])){
 
 $basket = $_SESSION['shoppingbasket'];
 
-$filmDAO = new Film();
+$film = new Film();
 
 echo "<center>";
 echo "<h2>Basket</h2><br/>";
@@ -24,22 +24,11 @@ echo "<table border=1>";
 echo "</tr><td><h4>Film Name</h4></td><td><h4>Quantity</h4></td><td><h4>Price</h4></td></tr>";
 
 foreach ($basket->getItems() as $f => $q) {
-	$query ="
-	SELECT
-	  filmtitle
-	FROM
-	  fss_Film
-	WHERE
-	  filmid = '$f'
-	";
-
-	$result = $filmDAO->query($query);
-	$fi = $result->fetch_object()->filmtitle;
-
+	$filmtitle = $film->getFilmName($f);
 	$price = $q * 5;
 
 	echo "<tr>
-					<td><a href='title.php?id=$f'>$fi</a></td>
+					<td><a href='title.php?id=$f'>$filmtitle</a></td>
 					<td>
 						<form method='post' id='quantity'>
 							<input type='hidden' name='filmid' value='$f'/>
@@ -66,10 +55,7 @@ function changeQuantity(){
 	$filmid = $_POST['filmid'];
 	$quantity = $_POST['changeQuantity'];
 
-
 	$_SESSION['shoppingbasket']->setQuantity($filmid, $quantity);
-
-	// $after = $_SESSION['shoppingbasket']->getQuantity($idSplit[0]);
 
 	header("Location: basket.php");
 	exit;

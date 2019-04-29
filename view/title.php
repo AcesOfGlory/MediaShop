@@ -4,23 +4,10 @@ include("../model/CustomerSession.php");
 include("layout/header.php");
 require_once("../dao/Film.php");
 
-$filmId = $_GET["id"];
-$queryGetFilm = "
-SELECT
-  filmid,
-  filmtitle,
-  filmdescription,
-  filmrating
-FROM
-  fss_Film F
-INNER JOIN
-  fss_Rating R
-WHERE
-  F.ratid = R.ratid AND filmid = '$filmId'
-";
+$filmid = $_GET["id"];
 
 $filmDAO = new Film();
-$film = $filmDAO->query($queryGetFilm)->fetch_assoc();
+$film = $filmDAO->getFilm($filmid);
 
 if ($film) {
   echo "<title>{$film['filmtitle']}</title>";
@@ -31,7 +18,7 @@ if ($film) {
 
   echo
     "<form action='../controller/addToBasket.php' method=post>
-        <input type='hidden' name='id' value='$filmId'>
+        <input type='hidden' name='id' value='$filmid'>
         <input type='submit' class='button-right' value='Add to Basket'>
       </form>
     ";

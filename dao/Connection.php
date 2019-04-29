@@ -35,7 +35,6 @@ class Connection {
             return $result;
         }
     }
-
 }
 
 ?>
